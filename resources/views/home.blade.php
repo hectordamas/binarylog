@@ -12,11 +12,18 @@
 @section('content')
 <div class="row mt-4">
     <div class="col-md-6">
-        <div class="btn-group" role="group" aria-label="Filtro de tiempo">
-            <button type="button" class="btn btn-outline-dark active" data-tipo="dia">Hoy</button>
-            <button type="button" class="btn btn-outline-dark" data-tipo="mes">Este Mes</button>
-            <button type="button" class="btn btn-outline-dark" data-tipo="anio">Este Año</button>
-        </div>
+        <form method="GET" action="{{ route('home') }}" class="btn-group" role="group" aria-label="Filtro de tiempo">
+            <input type="hidden" name="tipo" value="dia">
+            <button type="submit" class="btn btn-outline-dark {{ request('tipo', 'dia') === 'dia' ? 'active' : '' }}">Hoy</button>
+        </form>
+        <form method="GET" action="{{ route('home') }}" class="btn-group" role="group" aria-label="Filtro de tiempo">
+            <input type="hidden" name="tipo" value="mes">
+            <button type="submit" class="btn btn-outline-dark {{ request('tipo') === 'mes' ? 'active' : '' }}">Este Mes</button>
+        </form>
+        <form method="GET" action="{{ route('home') }}" class="btn-group" role="group" aria-label="Filtro de tiempo">
+            <input type="hidden" name="tipo" value="anio">
+            <button type="submit" class="btn btn-outline-dark {{ request('tipo') === 'anio' ? 'active' : '' }}">Este Año</button>
+        </form>
     </div>
 
     <div class="col-md-6 text-right d-flex align-items-center justify-content-end">
@@ -36,7 +43,7 @@
                 </div>
                 <div>
                     <div class="text-muted small">Efectividad</div>
-                    <div class="h4 mb-0 font-weight-bold text-success card-text" id="efectividad">--%</div>
+                    <div class="h4 mb-0 font-weight-bold text-success card-text">{{ $efectividad }}%</div>
                 </div>
             </div>
         </div>
@@ -51,7 +58,7 @@
                 </div>
                 <div>
                     <div class="text-muted small">Trades Ganados</div>
-                    <div class="h4 mb-0 font-weight-bold text-primary card-text" id="tradesGanados">--</div>
+                    <div class="h4 mb-0 font-weight-bold text-primary card-text">{{ $ganados }}</div>
                 </div>
             </div>
         </div>
@@ -66,7 +73,7 @@
                 </div>
                 <div>
                     <div class="text-muted small">Trades Perdidos</div>
-                    <div class="h4 mb-0 font-weight-bold text-danger card-text" id="tradesPerdidos">--</div>
+                    <div class="h4 mb-0 font-weight-bold text-danger card-text">{{ $perdidos }}</div>
                 </div>
             </div>
         </div>
@@ -81,7 +88,7 @@
                 </div>
                 <div>
                     <div class="text-muted small">Ganancia Neta</div>
-                    <div class="h4 mb-0 font-weight-bold text-dark card-text" id="gananciaNeta">$ --</div>
+                    <div class="h4 mb-0 font-weight-bold text-dark card-text">${{ number_format($gananciaNeta, 2, ',', '.') }}</div>
                 </div>
             </div>
         </div>
@@ -140,28 +147,13 @@
 
 @section('scripts')
 <script>
-    // Stats ficticios
-    const tradesGanados = 9;
-    const tradesPerdidos = 6;
-    const totalTrades = tradesGanados + tradesPerdidos;
-    const efectividad = ((tradesGanados / totalTrades) * 100).toFixed(2);
-    const gananciaNeta = 135.25;
-
-    // Rellenar las cards
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('efectividad').innerText = efectividad + '%';
-        document.getElementById('tradesGanados').innerText = tradesGanados;
-        document.getElementById('tradesPerdidos').innerText = tradesPerdidos;
-        document.getElementById('gananciaNeta').innerText = '$ ' + gananciaNeta;
-    });
-
     // Efectividad Pie
     const efectividadChart = new Chart(document.getElementById('efectividadChart'), {
         type: 'pie',
         data: {
             labels: ['Ganados', 'Perdidos'],
             datasets: [{
-                data: [tradesGanados, tradesPerdidos],
+                data: @json($chartEfectividadData),
                 backgroundColor: ['#28a745', '#dc3545'],
             }]
         }
@@ -171,10 +163,10 @@
     const gananciasChart = new Chart(document.getElementById('gananciasChart'), {
         type: 'line',
         data: {
-            labels: ['10 May', '11 May', '12 May', '13 May', '14 May'],
+            labels: @json($labelsGanancias),
             datasets: [{
                 label: 'Ganancia acumulada',
-                data: [0, 45.25, 70.10, 90.25, 135.25],
+                data: @json($gananciasPorFecha),
                 borderColor: '#007bff',
                 backgroundColor: 'rgba(0,123,255,0.1)',
                 fill: true,
@@ -187,10 +179,10 @@
     const montoChart = new Chart(document.getElementById('montoChart'), {
         type: 'bar',
         data: {
-            labels: ['10 May', '11 May', '12 May', '13 May', '14 May'],
+            labels: @json($labelsMonto),
             datasets: [{
                 label: 'Monto invertido ($)',
-                data: [50, 100, 75, 60, 80],
+                data: @json($montoInvertidoData),
                 backgroundColor: '#ffc107'
             }]
         }
@@ -198,18 +190,19 @@
 
     // Activos más operados Horizontal Bar
     const activosChart = new Chart(document.getElementById('activosChart'), {
-        type: 'horizontalBar',
+        type: 'bar',  // horizontalBar está deprecated, ahora se usa 'bar' con indexAxis
         data: {
-            labels: ['EUR/USD', 'BTC/USD', 'GOLD', 'AAPL', 'ETH/USD'],
+            labels: @json($activosLabels),
             datasets: [{
                 label: 'Número de trades',
-                data: [6, 4, 2, 2, 1],
+                data: @json($activosData),
                 backgroundColor: '#17a2b8'
             }]
         },
         options: {
+            indexAxis: 'y',
             scales: {
-                xAxes: [{ ticks: { beginAtZero: true } }]
+                x: { beginAtZero: true }
             }
         }
     });
