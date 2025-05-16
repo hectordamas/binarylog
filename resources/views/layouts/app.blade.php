@@ -21,6 +21,11 @@
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 
     <!-- Otros estilos -->
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css">
+
     <link rel="stylesheet" href="{{ asset('adminAssets/css/typography.css') }}">
     <link rel="stylesheet" href="{{ asset('adminAssets/css/default-css.css') }}">
     <link rel="stylesheet" href="{{ asset('adminAssets/css/styles.css') }}">
@@ -181,6 +186,23 @@
     <!-- others plugins -->
     <script src="{{ asset('adminAssets/js/plugins.js') }}"></script>
     <script src="{{ asset('adminAssets/js/scripts.js') }}"></script>
+
+
+    <!-- jQuery (ya incluido si usas Bootstrap) -->
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>   
+
+    <!-- DataTables Buttons -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+
     <script src="{{ asset('adminAssets/customAssets/js/script.js') }}"></script>
 
     @yield('scripts')

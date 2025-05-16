@@ -17,3 +17,8 @@
 .shadow-none {
     box-shadow: none !important;
 }
+
+.table td, .table th {
+    text-align: center !important;
+    vertical-align: middle;
+}
