@@ -132,7 +132,7 @@
 }
 .logo a {
     display: inline-block;
-    max-width: 120px;
+    max-width: 150px;
 }
 
 .metismenu >li >a {
@@ -2506,7 +2506,7 @@ table.dataTable thead td {
     height: 100%;
     width: 100%;
     background: #272727;
-    opacity: 0.7;
+    opacity: 0.6;
 }
 
 
