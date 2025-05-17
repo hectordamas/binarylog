@@ -145,7 +145,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                          @forelse ($trades as $trade)
+                          @foreach ($trades as $trade)
                           <tr>
                               <td>{{ $trade->id }}</td>
                               <td>{{ \Carbon\Carbon::parse($trade->fecha)->format('d/m/Y H:i') }}</td>
@@ -186,11 +186,7 @@
                                   </div>
                               </td>
                           </tr>
-                          @empty
-                          <tr>
-                              <td colspan="9" class="text-center text-muted">No se han registrado trades aún.</td>
-                          </tr>
-                          @endforelse
+                          @endforeach
                       </tbody>
                   </table>
                 </div>
