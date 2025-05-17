@@ -149,7 +149,7 @@
 <script>
     // Efectividad Pie
     const efectividadChart = new Chart(document.getElementById('efectividadChart'), {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: ['Ganados', 'Perdidos'],
             datasets: [{
