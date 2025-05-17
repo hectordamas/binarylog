@@ -23,10 +23,14 @@ class TradeController extends Controller
             $query->where('activo', 'like', '%' . $request->activo . '%');
         }
     
-        if ($request->ganado) {
-            $query->where('ganado', $request->ganado);
+
+        if ($request->filled('ganado')) {
+            if ($request->ganado === '1') {
+                $query->where('ganado', true);
+            } elseif ($request->ganado === '0') {
+                $query->where('ganado', false);
+            }
         }
-    
         // Clonar la query para métricas antes de paginar
         $queryMetrics = clone $query;
     
