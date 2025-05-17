@@ -123,4 +123,19 @@ class TradeController extends Controller
 
         return redirect()->route('trades.index')->with('success', 'Trade actualizado correctamente.');
     }
+
+    public function destroy($id)
+    {
+        $trade = Trade::findOrFail($id);
+    
+        // Eliminar imagen si existe
+        if ($trade->imagen && file_exists(public_path('uploads/trades/' . $trade->imagen))) {
+            unlink(public_path('uploads/trades/' . $trade->imagen));
+        }
+    
+        // Eliminar el trade
+        $trade->delete();
+    
+        return redirect()->route('trades.index')->with('success', 'Trade eliminado correctamente.');
+    }
 }

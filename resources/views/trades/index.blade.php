@@ -176,7 +176,7 @@
                                       <a href="{{ route('trades.edit', $trade->id) }}" class="btn btn-sm btn-outline-success">
                                           <i class="ti-pencil"></i>
                                       </a>
-                                      <form action="{{ route('trades.destroy', $trade->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este trade?')">
+                                      <form action="{{ route('trades.destroy', ['id' => $trade->id]) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este trade?')">
                                           @csrf
                                           @method('DELETE')
                                           <button type="submit" class="btn btn-sm btn-outline-danger btn-sm">

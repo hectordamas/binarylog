@@ -14,9 +14,9 @@ Route::middleware('auth')->group(function () {
     // Grupo para rutas de trades
     Route::prefix('trades')->name('trades.')->group(function () {
         Route::get('/', [TradeController::class, 'index'])->name('index');
-        Route::get('/trades/{trade}/edit', [TradeController::class, 'edit'])->name('edit');
-        Route::put('/trades/{trade}', [TradeController::class, 'update'])->name('update');        
-        Route::post('/{id}/destroy', [TradeController::class, 'destroy'])->name('destroy');
+        Route::get('/{trade}/edit', [TradeController::class, 'edit'])->name('edit');
+        Route::put('/{trade}', [TradeController::class, 'update'])->name('update');        
+        Route::delete('/{id}/destroy', [TradeController::class, 'destroy'])->name('destroy');
         Route::post('/', [TradeController::class, 'store'])->name('store');
     });
 });
