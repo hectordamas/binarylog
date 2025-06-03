@@ -56,14 +56,6 @@ class TradeController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'fecha' => 'required|date',
-            'activo' => 'nullable|string|max:255',
-            'monto' => 'required|numeric|min:0',
-            'ganado' => 'required|boolean',
-            'comentario' => 'nullable|string',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
 
         $imagenPath = null;
         if ($request->hasFile('imagen')) {
