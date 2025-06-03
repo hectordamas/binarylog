@@ -82,7 +82,7 @@ class TradeController extends Controller
             'imagen' => $imagenPath,
         ]);
 
-        return redirect()->route('trades.create')->with('success', 'Trade registrado correctamente.');
+        return redirect()->route('trades.index')->with('success', 'Trade registrado correctamente.');
     }
 
     public function edit(Trade $trade)
