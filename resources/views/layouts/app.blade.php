@@ -216,5 +216,39 @@
         });
     </script>
     @endif
+
+        @if(session()->has('message'))
+    <script>	
+        Swal.fire({
+            text: "{{ session('message') }}",
+            icon: "success",
+            confirmButtonText: "Continuar", 
+            confirmButtonColor: '#28a745'
+        });
+    </script>
+    @endif	
+
+    @if(session()->has('error'))
+    <script>	
+        Swal.fire({
+            text: "{{ session('error') }}",
+            icon: "error",
+            confirmButtonText: "Entendido!", 
+            confirmButtonColor: '#dc3545'
+        });
+    </script>
+    @endif	
+
+    @foreach($errors->all() as $error)
+    <script>	
+        Swal.fire({
+            text: "{{ $error }}",
+            icon: "error",
+            confirmButtonText: "Entendido!", 
+            confirmButtonColor: '#dc3545'
+        });
+    </script>
+    @endforeach
+
 </body>
 </html>
