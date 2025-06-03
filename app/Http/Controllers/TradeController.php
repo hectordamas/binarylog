@@ -96,9 +96,9 @@ class TradeController extends Controller
 
         $imagenPath = null;
         if ($request->hasFile('imagen')) {
-            $imagen = $request->file('imagen');
-            $nombreImagen = time() . '.' . $imagen->getClientOriginalExtension();
-            $imagen->move(public_path('uploads/trades'), $nombreImagen);
+            $file = $request->file('imagen');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('trades_img'), $filename);
             $imagenPath = 'trades_img/' . $filename; // Ruta relativa para usar en la vista
         }
 
