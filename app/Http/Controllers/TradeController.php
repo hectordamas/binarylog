@@ -69,12 +69,13 @@ class TradeController extends Controller
         $monto = $request->input('monto');
         $ganado = $request->has('ganado');
         $porcentaje = $request->input('porcentaje');
-        $pago = $request->boolean('pago');    
+        $pago = $request->input('pago');    
 
         Trade::create([
             'user_id' => Auth::id(),
             'fecha' => $request->input('fecha'),
             'activo' => $request->input('activo'),
+            'porcentaje' => $request->input('porcentaje'),
             'monto' => $monto,
             'ganado' => $ganado,
             'pago' => $pago,
@@ -92,27 +93,29 @@ class TradeController extends Controller
 
     public function update(Request $request, Trade $trade)
     {
-        $data = $request->validate([
-            'fecha' => 'required|date',
-            'activo' => 'required|string',
-            'monto' => 'required|numeric',
-            'ganado' => 'nullable|boolean',
-            'pago' => 'required|numeric',
-            'porcentaje' => 'nullable|numeric',
-            'comentario' => 'nullable|string',
-            'imagen' => 'nullable|image|max:2048',
-        ]);
 
+        $imagenPath = null;
         if ($request->hasFile('imagen')) {
             $imagen = $request->file('imagen');
             $nombreImagen = time() . '.' . $imagen->getClientOriginalExtension();
             $imagen->move(public_path('uploads/trades'), $nombreImagen);
-            $data['imagen'] = $nombreImagen;
+            $imagenPath = 'trades_img/' . $filename; // Ruta relativa para usar en la vista
         }
 
-        $data['ganado'] = $request->has('ganado');
-
-        $trade->update($data);
+        $trade = Trade::find($trade->id); // Asegúrate de tener el ID o el modelo
+            
+        $trade->fecha = $request->input('fecha');
+        $trade->activo = $request->input('activo');
+        $trade->porcentaje = $request->input('porcentaje');
+        $trade->monto = $request->input('monto');
+        $trade->ganado = $request->has('ganado');
+        $trade->pago = $request->input('pago');
+        $trade->comentario = $request->input('comentario');
+        if($request->hasFile('imagen')){
+            $trade->imagen = $imagenPath;
+        }
+            
+        $trade->save();
 
         return redirect()->route('trades.index')->with('success', 'Trade actualizado correctamente.');
     }
