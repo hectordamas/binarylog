@@ -162,7 +162,7 @@
                               <td>
                                   @if($trade->imagen)
                                       <button class="btn btn-outline-primary btn-ver-imagen btn-sm" 
-                                              data-imagen="{{ asset('uploads/trades/' . $trade->imagen) }}" 
+                                              data-imagen="{{ asset($trade->imagen) }}" 
                                               data-toggle="modal" 
                                               data-target="#modalImagen">
                                           <i class="ti-gallery"></i>
